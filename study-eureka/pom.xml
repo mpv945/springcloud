@@ -28,9 +28,17 @@
 
     <dependencies>
 
+        <!--注册服务-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+
+        <!--集成到服务可以提供服务的监控和端点管理，如果集成到Eureka会为/health端点增加相关信息，
+        如果是网关Zuul 能提供/route端点返回路由信息 ，启动项目查看WebMvcEndpointHandlerMapping 的url路径-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>

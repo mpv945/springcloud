@@ -1,6 +1,21 @@
 spring:
   application:
     name: studyeureka
+  profiles:
+    active: dev
+  cloud:
+    #多网卡环境下的ip选择
+    inetutils:
+      # 使用站点本地地址
+      #use-only-site-local-interfaces: true
+      # 使用正则表达式，指定可以使用的网络地址
+      preferred-networks:
+        - 192.168
+        - 10.0
+      # 忽略指定名称的网卡
+      #ignored-interfaces:
+        #- docker0
+        #- veth.*
   #cloud: #配置中心
     #config:
       #uri: ${CONFIG_SERVER_URL:http://localhost:8888}

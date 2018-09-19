@@ -1,0 +1,57 @@
+<profiles>
+        <profile>
+            <!-- 开发环境 -->
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <!-- 默认激活该profile节点-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources_env/dev</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <!-- 测试环境 -->
+            <id>qa</id>
+            <properties>
+                <env>qa</env>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources_env/qa</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
+            <id>online</id>
+            <properties>
+                <env>online</env>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources_env/online</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>

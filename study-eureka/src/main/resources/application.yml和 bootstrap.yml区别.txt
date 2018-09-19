@@ -1,0 +1,12 @@
+1. bootstrap.yml（bootstrap.properties）用来程序引导时执行，应用于更加早期配置信息读取，如可以使用来配置application.yml中使用到参数等(bootstrap.yml（bootstrap.properties）先加载)
+        当使用 Spring Cloud Config Server 的时候，你应该在 bootstrap.yml 里面指定 spring.application.name 和 spring.cloud.config.server.git.uri
+        和一些加密/解密的信息
+        当使用 Spring Cloud 的时候，配置信息一般是从 config server 加载的，为了取得配置信息（比如密码等），你需要一些提早的或引导配置。因此，把 config server 信息放在 bootstrap.yml，用来加载真正需要的配置信息。
+
+2. application.yml（application.properties) 应用程序特有配置信息，可以用来配置后续各个模块中需使用的公共参数等。(application.yml（application.properties）后加载)
+        application.yml 支持 application-{profile}.yml 和 ---区分环境
+bootstrap.yml 先于 application.yml 加载
+        bootstrap.yml 用于应用程序上下文的引导阶段。
+        bootstrap.yml 由父Spring ApplicationContext加载。
+        父ApplicationContext 被加载到使用 application.yml 的之前。
+

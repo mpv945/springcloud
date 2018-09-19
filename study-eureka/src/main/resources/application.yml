@@ -1,8 +1,29 @@
 server:
   port: 9090
+spring:
+  profiles: dev
+eureka: #配置详解https://www.cnblogs.com/chry/p/7992885.html
+  instance:
+    prefer-ip-address: true # 就可以将IP注册到Eureka Server上
+    #ip-address: 127.0.0.1 # 除了网卡指定ip，还可以手动指定ip
+  client:
+    # 如果不做集群，这两个都设置成false，不然服务启动会报错，因为单台时自己只是服务端，没办法将自己注册给自己，也不能抓取信息
+    register-with-eureka: false #声明是否将自己的信息注册到Eureka服务器，默认为true
+    fetch-registry: false #是否到Eureka服务器中抓取注册信息,默认为true
+    #enabled: false #是否开启注册客户端，默认true，一台直接关闭
+  server:
+    # 不做集群设置成0；在Eureka服务器获取不到集群里对等服务器上的实例时，需要等待的时间，单位为毫秒，默认0
+    #wait-time-in-ms-when-sync-empty: 0
+--- #多个profiles之间使用---三个-线来表示
+spring:
+  profiles: test
 eureka:
   client:
-    registerWithEureka: false
-    fetchRegistry: false
-  server:
-    waitTimeInMsWhenSyncEmpty: 0
+    register-with-eureka: false
+    fetch-registry: false
+---
+spring:
+  profiles: rc #预生产
+---
+spring:
+  profiles: pro #生产
