@@ -1,0 +1,7 @@
+1 .首先File ---》Project--》然后
+spring Initalizr --》选中dufault 创建项目--》 填好Group和Artifact以及版本信息，Type选Maven POM，然后next，选中maven版本，创建完项目
+
+2. 修改该项目pom文件的packaging为<packaging>pom</packaging>
+
+3. 选中项目，右键new --》Module--》选中maven --》 然后勾选Create from archetype，选中 maven-archetype-quickstart，下一步--》看是否是依赖1创建的父项目
+    填写Artifact就好，其他都依赖父项目的。最后设置完创建。这样子项目就创建好了
