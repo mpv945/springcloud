@@ -6,6 +6,9 @@ eureka: #配置详解https://www.cnblogs.com/chry/p/7992885.html
   instance:
     prefer-ip-address: true # 就可以将IP注册到Eureka Server上
     #ip-address: 127.0.0.1 # 除了网卡指定ip，还可以手动指定ip
+    # 注册名默认是“IP名:应用名:应用端口名”，即${spring.cloud.client.ipAddress}:${spring.application.name}:${spring.application.instance_id:${server.port}}。
+    #instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}:@project.version@ #引用maven属性要用@@
+    #hostname: ${spring.cloud.client.ipAddress} #点击注册服务的服务url能访问
   client:
     # 如果不做集群，这两个都设置成false，不然服务启动会报错，因为单台时自己只是服务端，没办法将自己注册给自己，也不能抓取信息
     register-with-eureka: false #声明是否将自己的信息注册到Eureka服务器，默认为true
@@ -14,6 +17,7 @@ eureka: #配置详解https://www.cnblogs.com/chry/p/7992885.html
   server:
     # 不做集群设置成0；在Eureka服务器获取不到集群里对等服务器上的实例时，需要等待的时间，单位为毫秒，默认0
     #wait-time-in-ms-when-sync-empty: 0
+
 --- #多个profiles之间使用---三个-线来表示
 spring:
   profiles: test

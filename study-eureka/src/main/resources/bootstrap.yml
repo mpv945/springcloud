@@ -19,3 +19,28 @@ spring:
   #cloud: #配置中心
     #config:
       #uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+#spring-boot-starter-actuator 开启控制 ，参考 https://blog.csdn.net/alinyua/article/details/80009435#1-开启actuator
+management:
+  server:
+    port: -1 #禁用HTTP端点
+  info:
+    defaults:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git: # 返回git信息，配置git-commit-id-plugin插件并执行，在target/classes会生成一个git.properties配置，之间运行会自动启动插件，生成配置文件
+      mode: full #全部信息
+      enabled: true
+  endpoints:
+    web: # web 访问控制，还可以jms
+      cors: #跨域控制
+        allowed-headers: ["*"]
+        allowed-methods: ["*"]
+        max-age: 1800s
+        allow-credentials: true #允许cookies跨域
+        allowed-origins: ["*"] #允许向该服务器提交请求的URI
+      exposure:
+        include: ["info","health"] # 可以浏览的断点，还可以控制exclude 排除
+      #base-path: / #Spring Boot 2.0的端点基础路径由“/”调整到”/actuator”下,可以通过左边配置改为和旧版本一致
