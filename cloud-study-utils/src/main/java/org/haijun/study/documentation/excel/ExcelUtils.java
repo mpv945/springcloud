@@ -167,20 +167,7 @@ public class ExcelUtils {
             return retData;
         }
     }
-    // 读取excel 测试
-    public static void main(String[] args) {
-        try {
-            List<List<String>>  data1 = readNoDataType(new File("D:\\mapingUrl.xls"),ExcelTypeEnum.XLS,1);
-            //writeDataTypeCheck(new ArrayList<Integer>());
-            //System.out.println(data1);
-            Table table3 = new Table(3);
-            table3.setClazz(MultiLineHeadExcelModel.class);
-            writeListStrToFile(new File("D:\\test.xlsx"),
-                    data1,"测试数据",ExcelTypeEnum.XLSX ,true,table3);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * 写excel数据返回二进制数组
@@ -197,7 +184,7 @@ public class ExcelUtils {
         try(
                 ByteArrayOutputStream out = new ByteArrayOutputStream()
         ) {
-            commWrite(data, typeEnum, needHead, table, out);
+            commWrite(data, typeEnum, needHead, table, out ,sheetName);
             return out.toByteArray();
         }
 
@@ -218,7 +205,7 @@ public class ExcelUtils {
         try(
                 OutputStream out = new FileOutputStream(file)
         ){
-            commWrite(data, typeEnum, needHead, table, out);
+            commWrite(data, typeEnum, needHead, table, out, sheetName);
         }
     }
 
@@ -241,6 +228,7 @@ public class ExcelUtils {
         }
     }
 
+
     /**
      * 公共写入方法
      * @param data
@@ -249,7 +237,8 @@ public class ExcelUtils {
      * @param table
      * @param out
      */
-    private static void commWrite(List<? extends BaseRowModel> data, ExcelTypeEnum typeEnum, boolean needHead, Table table, OutputStream out) {
+    private static void commWrite(List<? extends BaseRowModel> data, ExcelTypeEnum typeEnum, boolean needHead,
+                                  Table table, OutputStream out, String sheetName) {
         ExcelWriter writer = new ExcelWriter(out, typeEnum ,needHead);
         int startIndex = 0;
         int size = data.size();
@@ -261,7 +250,14 @@ public class ExcelUtils {
         do{
             endIndex++;
             Sheet sheet = new Sheet(0);
-            writer.write(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet, table);
+            sheet.setSheetName(sheetName);
+            if(table == null){
+                // 如果没有设置Table，就通过Excel基础模型对象填充头部信息
+                sheet.setClazz(data.get(0).getClass());
+                writer.write(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet);
+            } else {
+                writer.write(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet, table);
+            }
             endIndex = ((startIndex+1)*maxRowNum)-1;
         }while (endIndex<size);
         writer.finish();
@@ -290,8 +286,9 @@ public class ExcelUtils {
                 writer.write0(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet);
             } else {
                 writer.write0(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet, table);
-                Table table3 = new Table(4);
-                writer.write0(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet, table3);
+                // 同一个sheet 创建多张表
+                /*Table table3 = new Table(4);
+                writer.write0(data.stream().skip(startIndex).limit(endIndex).collect(Collectors.toList()), sheet, table3);*/
             }
 
             endIndex = ((startIndex+1)*maxRowNum)-1;
@@ -306,6 +303,11 @@ public class ExcelUtils {
 
     private Map<String, Integer> map;
 
+    /**
+     * 反编译获取字段对象类型
+     * @param object
+     * @throws ExcelGenerateException
+     */
     private static void writeDataTypeCheck(Object object) throws ExcelGenerateException {
 
         Field listField = null;
