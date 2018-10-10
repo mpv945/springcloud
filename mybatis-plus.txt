@@ -1,0 +1,3 @@
+https://www.cnblogs.com/lianggp/p/7573653.html
+
+https://gitee.com/baomidou/mybatisplus-spring-boot/blob/master/src/main/resources/application.yml
