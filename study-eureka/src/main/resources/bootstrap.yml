@@ -10,11 +10,11 @@ spring:
       #use-only-site-local-interfaces: true
       # 使用正则表达式，指定可以使用的网络地址
       preferred-networks:
-        - 192.168
+        - 192.168.1.
         - 10.0
       # 忽略指定名称的网卡
       #ignored-interfaces:
-        #- docker0
+        #- docker*
         #- veth.*
   #cloud: #配置中心
     #config:

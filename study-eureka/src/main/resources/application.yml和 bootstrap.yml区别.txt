@@ -1,3 +1,7 @@
+注册中心高可用
+https://cloud.tencent.com/developer/article/1152507
+
+
 1. bootstrap.yml（bootstrap.properties）用来程序引导时执行，应用于更加早期配置信息读取，如可以使用来配置application.yml中使用到参数等(bootstrap.yml（bootstrap.properties）先加载)
         当使用 Spring Cloud Config Server 的时候，你应该在 bootstrap.yml 里面指定 spring.application.name 和 spring.cloud.config.server.git.uri
         和一些加密/解密的信息
@@ -9,4 +13,29 @@ bootstrap.yml 先于 application.yml 加载
         bootstrap.yml 用于应用程序上下文的引导阶段。
         bootstrap.yml 由父Spring ApplicationContext加载。
         父ApplicationContext 被加载到使用 application.yml 的之前。
+
+stackoverflow上，有人给出的建议是：
+1、在生产上可以开自注册，部署两个server
+2、在本机器上测试的时候，可以把比值调低，比如0.49
+3、或者简单粗暴把自我保护模式关闭
+
+参数设置说明https://www.jb51.net/article/137781.htm
+yaml:
+ str: 字符串可以不加引号
+ specialStr: "双引号直接输出\n特殊字符"
+ specialStr2: '单引号可以转义\n特殊字符'
+ flag: false
+ num: 666
+ Dnum: 88.88
+ list:
+  - one
+  - two
+  - two
+ set: [1,2,2,3]
+ map: {k1: v1, k2: v2}
+ positions:
+  - name: ITDragon
+   salary: 15000.00
+  - name: ITDragonBlog
+   salary: 18888.88
 
